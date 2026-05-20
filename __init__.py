@@ -46,65 +46,65 @@ PORT_SIGNATURES: Dict[int, str] = {
 # Checked in order — first match wins
 DEVICE_RULES = [
     # Routers / Gateways
-    (["dns", "dhcp", "http"],                          "Router",        "🌐"),
-    (["dns", "http"],                                   "Router",        "🌐"),
-    (["telnet", "http"],                                "Router",        "🌐"),
+    (["dns", "dhcp", "http"],                          "Router",        ""),
+    (["dns", "http"],                                   "Router",        ""),
+    (["telnet", "http"],                                "Router",        ""),
     # Printers
-    (["printer"],                                       "Printer",       "🖨️"),
-    (["printer-lpd"],                                   "Printer",       "🖨️"),
-    (["ipp-printer"],                                   "Printer",       "🖨️"),
+    (["printer"],                                       "Printer",       ""),
+    (["printer-lpd"],                                   "Printer",       ""),
+    (["ipp-printer"],                                   "Printer",       ""),
     # Windows PC
-    (["smb", "rdp"],                                    "Windows PC",    "🖥️"),
-    (["smb", "netbios"],                                "Windows PC",    "🖥️"),
-    (["rdp"],                                           "Windows PC",    "🖥️"),
-    (["smb"],                                           "Windows PC",    "🖥️"),
+    (["smb", "rdp"],                                    "Windows PC",    ""),
+    (["smb", "netbios"],                                "Windows PC",    ""),
+    (["rdp"],                                           "Windows PC",    ""),
+    (["smb"],                                           "Windows PC",    ""),
     # Media / Smart TV
-    (["rtsp", "upnp"],                                  "Smart TV",      "📺"),
-    (["upnp", "http"],                                  "Smart TV",      "📺"),
-    (["rtsp"],                                          "Media Device",  "📺"),
+    (["rtsp", "upnp"],                                  "Smart TV",      ""),
+    (["upnp", "http"],                                  "Smart TV",      ""),
+    (["rtsp"],                                          "Media Device",  ""),
     # Apple devices
-    (["airplay"],                                       "Apple Device",  "🍎"),
+    (["airplay"],                                       "Apple Device",  ""),
     # IoT / Smart home
-    (["mqtt"],                                          "IoT Device",    "💡"),
-    (["mqtt-ssl"],                                      "IoT Device",    "💡"),
+    (["mqtt"],                                          "IoT Device",    ""),
+    (["mqtt-ssl"],                                      "IoT Device",    ""),
     # SSH servers (Linux/Pi/NAS)
-    (["ssh", "http"],                                   "Linux Server",  "🐧"),
-    (["ssh"],                                           "Linux / Pi",    "🐧"),
+    (["ssh", "http"],                                   "Linux Server",  ""),
+    (["ssh"],                                           "Linux / Pi",    ""),
     # NAS / File server
-    (["smb", "ftp"],                                    "NAS / Server",  "🗄️"),
-    (["ftp"],                                           "File Server",   "🗄️"),
+    (["smb", "ftp"],                                    "NAS / Server",  ""),
+    (["ftp"],                                           "File Server",   ""),
     # Dev server
-    (["dev-server"],                                    "Dev Server",    "⚙️"),
+    (["dev-server"],                                    "Dev Server",    ""),
     # Generic web server
-    (["https"],                                         "Web Server",    "🌐"),
-    (["http"],                                          "Web Server",    "🌐"),
+    (["https"],                                         "Web Server",    ""),
+    (["http"],                                          "Web Server",    ""),
 ]
 
 # Vendor-based type hints
 VENDOR_TYPES = {
-    "Apple":            ("Apple Device",   "🍎"),
-    "Samsung":          ("Android Device", "📱"),
-    "Xiaomi":           ("Android Device", "📱"),
-    "Google":           ("Google Device",  "📱"),
-    "Amazon":           ("Amazon Device",  "📦"),
-    "Raspberry Pi":     ("Raspberry Pi",   "🥧"),
-    "Espressif (IoT)":  ("IoT Device",     "💡"),
-    "Shelly (IoT)":     ("IoT Device",     "💡"),
-    "Philips Hue":      ("Smart Light",    "💡"),
-    "Nintendo":         ("Game Console",   "🎮"),
-    "Sony":             ("Sony Device",    "🎮"),
-    "TP-Link":          ("Router/AP",      "🌐"),
-    "Netgear":          ("Router/AP",      "🌐"),
-    "Cisco":            ("Network Device", "🌐"),
-    "Ubiquiti":         ("Network Device", "🌐"),
-    "D-Link":           ("Router/AP",      "🌐"),
-    "HP":               ("HP Device",      "🖥️"),
-    "Dell":             ("Dell PC",        "🖥️"),
-    "Lenovo":           ("Lenovo PC",      "🖥️"),
-    "ASUS":             ("ASUS Device",    "🖥️"),
-    "Microsoft":        ("Microsoft Device","🖥️"),
-    "VMware":           ("Virtual Machine","⚙️"),
-    "VirtualBox":       ("Virtual Machine","⚙️"),
+    "Apple":            ("Apple Device",   ""),
+    "Samsung":          ("Android Device", ""),
+    "Xiaomi":           ("Android Device", ""),
+    "Google":           ("Google Device",  ""),
+    "Amazon":           ("Amazon Device",  ""),
+    "Raspberry Pi":     ("Raspberry Pi",   ""),
+    "Espressif (IoT)":  ("IoT Device",     ""),
+    "Shelly (IoT)":     ("IoT Device",     ""),
+    "Philips Hue":      ("Smart Light",    ""),
+    "Nintendo":         ("Game Console",   ""),
+    "Sony":             ("Sony Device",    ""),
+    "TP-Link":          ("Router/AP",      ""),
+    "Netgear":          ("Router/AP",      ""),
+    "Cisco":            ("Network Device", ""),
+    "Ubiquiti":         ("Network Device", ""),
+    "D-Link":           ("Router/AP",      ""),
+    "HP":               ("HP Device",      ""),
+    "Dell":             ("Dell PC",        ""),
+    "Lenovo":           ("Lenovo PC",      ""),
+    "ASUS":             ("ASUS Device",    ""),
+    "Microsoft":        ("Microsoft Device",""),
+    "VMware":           ("Virtual Machine",""),
+    "VirtualBox":       ("Virtual Machine",""),
 }
 
 
@@ -150,31 +150,31 @@ def guess_device_type(open_services: List[str], vendor: str, os_guess: str, host
     # 3. OS + hostname clues
     hostname_lower = hostname.lower()
     if "router" in hostname_lower or "gateway" in hostname_lower:
-        return "Router", "🌐"
+        return "Router", ""
     if "iphone" in hostname_lower or "ipad" in hostname_lower:
-        return "iPhone/iPad", "📱"
+        return "iPhone/iPad", ""
     if "android" in hostname_lower:
-        return "Android Device", "📱"
+        return "Android Device", ""
     if "macbook" in hostname_lower or "imac" in hostname_lower:
-        return "Mac", "💻"
+        return "Mac", ""
     if "printer" in hostname_lower:
-        return "Printer", "🖨️"
+        return "Printer", ""
     if "tv" in hostname_lower or "roku" in hostname_lower or "fire" in hostname_lower:
-        return "Smart TV", "📺"
+        return "Smart TV", ""
     if "nas" in hostname_lower or "synology" in hostname_lower or "qnap" in hostname_lower:
-        return "NAS", "🗄️"
+        return "NAS", ""
     if "pi" in hostname_lower or "raspberry" in hostname_lower:
-        return "Raspberry Pi", "🥧"
+        return "Raspberry Pi", ""
 
     # 4. OS guess fallback
     if os_guess == "Windows":
-        return "Windows PC", "🖥️"
+        return "Windows PC", ""
     if os_guess == "macOS / iOS":
-        return "Apple Device", "🍎"
+        return "Apple Device", ""
     if os_guess == "Linux / Android":
-        return "Linux / Android", "🐧"
+        return "Linux / Android", ""
 
-    return "Unknown Device", "❓"
+    return "Unknown Device", ""
 
 
 def get_open_ports_summary(open_services: List[str]) -> str:
