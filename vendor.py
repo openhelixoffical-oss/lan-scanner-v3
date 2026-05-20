@@ -24,8 +24,8 @@ class Display:
     def banner(self):
         if RICH_AVAILABLE:
             self.console.print(Panel.fit(
-                "[bold cyan]  LAN Device Scanner[/bold cyan]\n"
-                "[dim]Discover and monitor devices on your network[/dim]",
+                "[bold cyan]  LAN Device Scanner By BradJSharpe[/bold cyan]\n"
+                "[dim]Alows u to see devices on ur wifi[/dim]",
                 border_style="cyan"
             ))
             self.console.print()
