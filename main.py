@@ -11,7 +11,7 @@ try:
 except ImportError:
     SCAPY_AVAILABLE = False
 
-from .vendor import VendorLookup
+from vendor import VendorLookup
 from .fingerprint import scan_ports, guess_device_type, get_open_ports_summary
 
 
