@@ -5,17 +5,17 @@ from typing import List
 from scanner import Device
 
 
-DB_PATH = os.path.join(os.path.expanduser("~"), ".lan_scanner.db")
+DB_PATH = ospathjoin(ospathexpanduser("~"), "lan_scannerdb")
 
 
 class DeviceHistory:
     def __init__(self, db_path: str = DB_PATH):
-        self.db_path = db_path
-        self._init_db()
+        selfdb_path = db_path
+        self_init_db()
 
     def _init_db(self):
-        with self._conn() as conn:
-            conn.execute("""
+        with self_conn() as conn:
+            connexecute("""
                 CREATE TABLE IF NOT EXISTS devices (
                     mac TEXT PRIMARY KEY,
                     ip TEXT,
@@ -31,55 +31,55 @@ class DeviceHistory:
             """)
             for col, default in [("label","''"), ("device_type","'Unknown Device'"), ("device_icon","'❓'")]:
                 try:
-                    conn.execute(f"ALTER TABLE devices ADD COLUMN {col} TEXT DEFAULT {default}")
+                    connexecute(f"ALTER TABLE devices ADD COLUMN {col} TEXT DEFAULT {default}")
                 except Exception:
                     pass
 
     def _conn(self):
-        return sqlite3.connect(self.db_path)
+        return sqlite3connect(selfdb_path)
 
     def update(self, devices: List[Device]) -> List[Device]:
         new_devices = []
-        with self._conn() as conn:
+        with self_conn() as conn:
             for device in devices:
-                if device.mac == "N/A":
+                if devicemac == "N/A":
                     continue
-                existing = conn.execute(
+                existing = connexecute(
                     "SELECT mac, first_seen, seen_count, label FROM devices WHERE mac = ?",
-                    (device.mac,)
-                ).fetchone()
+                    (devicemac,)
+                )fetchone()
 
                 if existing:
-                    device.first_seen = datetime.fromisoformat(existing[1])
-                    device.seen_count = existing[2] + 1
-                    device.label = existing[3] or ""
-                    conn.execute("""
+                    devicefirst_seen = datetimefromisoformat(existing[1])
+                    deviceseen_count = existing[2] + 1
+                    devicelabel = existing[3] or ""
+                    connexecute("""
                         UPDATE devices SET ip=?, hostname=?, vendor=?, device_type=?, device_icon=?,
                         last_seen=?, seen_count=seen_count+1 WHERE mac=?
-                    """, (device.ip, device.hostname, device.vendor, device.device_type,
-                          device.device_icon, device.last_seen.isoformat(), device.mac))
+                    """, (deviceip, devicehostname, devicevendor, devicedevice_type,
+                          devicedevice_icon, devicelast_seenisoformat(), devicemac))
                 else:
-                    conn.execute("""
+                    connexecute("""
                         INSERT INTO devices
                         (mac, ip, hostname, vendor, label, device_type, device_icon, first_seen, last_seen, seen_count)
                         VALUES (?, ?, ?, ?, '', ?, ?, ?, ?, 1)
-                    """, (device.mac, device.ip, device.hostname, device.vendor,
-                          device.device_type, device.device_icon,
-                          device.first_seen.isoformat(), device.last_seen.isoformat()))
-                    new_devices.append(device)
+                    """, (devicemac, deviceip, devicehostname, devicevendor,
+                          devicedevice_type, devicedevice_icon,
+                          devicefirst_seenisoformat(), devicelast_seenisoformat()))
+                    new_devicesappend(device)
         return new_devices
 
     def set_label(self, mac: str, label: str):
-        with self._conn() as conn:
-            conn.execute("UPDATE devices SET label=? WHERE mac=?", (label, mac))
+        with self_conn() as conn:
+            connexecute("UPDATE devices SET label=? WHERE mac=?", (label, mac))
 
     def get_all(self) -> List[dict]:
-        with self._conn() as conn:
-            rows = conn.execute("""
+        with self_conn() as conn:
+            rows = connexecute("""
                 SELECT mac, ip, hostname, vendor, label, device_type, device_icon,
                        first_seen, last_seen, seen_count
                 FROM devices ORDER BY last_seen DESC
-            """).fetchall()
+            """)fetchall()
         return [
             {"mac": r[0], "ip": r[1], "hostname": r[2], "vendor": r[3],
              "label": r[4], "device_type": r[5], "device_icon": r[6],
@@ -88,5 +88,5 @@ class DeviceHistory:
         ]
 
     def clear(self):
-        with self._conn() as conn:
-            conn.execute("DELETE FROM devices")
+        with self_conn() as conn:
+            connexecute("DELETE FROM devices")
