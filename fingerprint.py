@@ -2,7 +2,7 @@ import sqlite3
 import os
 from datetime import datetime
 from typing import List
-from .scanner import Device
+from scanner import Device
 
 
 DB_PATH = os.path.join(os.path.expanduser("~"), ".lan_scanner.db")
