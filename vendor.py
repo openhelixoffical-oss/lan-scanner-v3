@@ -13,7 +13,7 @@ try:
 except ImportError:
     RICH_AVAILABLE = False
 
-from .fingerprint import get_open_ports_summary
+from fingerprint import get_open_ports_summary
 
 
 class Display:
